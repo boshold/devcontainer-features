@@ -6,8 +6,8 @@ verify_is_root() {
 }
 
 install_dependencies() {
-  local id="$(grep -E 'ID=' /etc/os-release | cut -d '=' -f 2-)"
-  local id_like="$(grep -E 'ID_LIKE=' /etc/os-release | cut -d '=' -f 2-)"
+  local id="$(grep -E '^ID=' /etc/os-release | cut -d '=' -f 2-)"
+  local id_like="$(grep -E '^ID_LIKE=' /etc/os-release | cut -d '=' -f 2-)"
 
   # Get an adjusted ID independent of distro variants
   if [ "${id}" = "debian" ] || [ "${id_like}" = "debian" ]; then
