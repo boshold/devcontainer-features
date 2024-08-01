@@ -1,59 +1,60 @@
 #!/bin/sh
 set -e
 
-. ./helper.sh
-
-START_TIME=`date +%s`
-
-echo "Installing feature 'neovim-source'"
-
-# Get input parameter
-VERSION=${VERSION:-"stable"}
-REPOSITORY=${REPOSITORY:-"neovim/neovim"}
-
-CONFIG=${CONFIG:-""}
-INSTALL_NERDFONT=${INSTALL_NERDFONT:-"false"}
-
-
-
-echo "The version to be installed is '$VERSION'"
-
-# Verify that current user is root
-verify_is_root
-
-# Install required dependencies
-install_dependencies
-
-# Get the correct tag for the passed in version
-get_valid_tag "$VERSION"
-TAG_NAME="$RESULT"
-if [ $TAG_NAME = "" ]; then
-  # If the tag is not found, return an error message
-  echo "No tag found for the provided version: $VERSION" >&2
-  return 1
+if [ -f "./.global" ]; then
+  GLOBAL_DEPENCENCIES="./.globa"
+else
+  GLOBAL_DEPENCENCIES="../_global"
 fi
 
-echo "The tag to be installed is '$TAG_NAME' (https://github.com/${REPOSITORY}/releases/tag/${TAG_NAME})"
-LOCAL_TEMP_FOLDER="/tmp/source-neovim-${TAG_NAME}"
-rm -rf $LOCAL_TEMP_FOLDER
-mkdir $LOCAL_TEMP_FOLDER
+. $GLOBAL_DEPENCENCIES/util.sh
+. $GLOBAL_DEPENCENCIES/nerdfont.sh
+. $GLOBAL_DEPENCENCIES/github.sh
+. $GLOBAL_DEPENCENCIES/dependencies.sh
+. ./functions.sh
 
-# Download neovim
-echo "Downloading source for ${REPOSITORY}:${TAG_NAME}..."
-curl -sL https://github.com/${REPOSITORY}/archive/refs/tags/${TAG_NAME}.tar.gz | tar -xzC "$LOCAL_TEMP_FOLDER" --strip-components=1 2>&1
+main() {
+  # Get options
+  local mode=${MODE:-"auto"}
+  local version=${VERSION:-"stable"}
+  local repository=${REPOSITORY:-"neovim/neovim"}
+  local configRepository=${CONFIG:-""}
+  local configHookEnabled=${CONFIG_HOOK:-"true"}
+  local installNerdFont=${NERDFONT:-"false"}
+  local installLazyGit=${LAZYGIT:-"false"}
 
-# Build neovim
-echo "Building..."
-cd "$LOCAL_TEMP_FOLDER"
-make && make CMAKE_INSTALL_PREFIX=/usr/local/nvim install
-ln -sf /usr/local/nvim/bin/nvim /usr/local/bin/nvim
+  if [ "$version" = "latest" ]; then
+    version="stable"
+  fi
 
-# Clean up
-rm -rf "$LOCAL_TEMP_FOLDER"
+  echo "Installing feature 'neovim' using the passed configuration:"
+  echo "  Mode: ${mode}"
+  echo "  Version: ${version}"
+  echo "  Repository: ${repository}"
+  echo "  Config repository: ${configLocation}"
+  echo "  Config hook enabled: ${configHookEnabled}"
+  echo "  Install NerdFont: ${installNerdFont}"
+  echo "  Install LazyGit: ${installLazyGit}"
 
-echo 'Running `nvim -v`:'
-nvim -v
+  util_start_time_measure
 
-END_TIME=`date +%s`
-RUNTIME=$((END_TIME-START_TIME))
-echo "Installed '$VERSION' as '${REPOSITORY}:${TAG_NAME}' successfully (in only ${RUNTIME}s)!"
+  # Verify that current user is root
+  util_verify_is_root
+
+  if [ "$mode" = "auto"]; then
+    local install_version=`dependencies_get_version_debian "neovim" && util_result`
+  elif [ "$mode" = "apt" ]; then
+    install_neovim_apt
+  elif [ "$mode" = "source" ]; then
+    install_neovim_source "$repository" "$version"
+  fi
+
+  echo 'Running `nvim -v`:'
+  nvim -v
+
+  util_end_time_measure;
+  local runtime="$RESULT"
+
+  echo "Installed '$version' as '${repository}:${tagName}' successfully (in only ${RUNTIME}s)!"
+}
+main;
