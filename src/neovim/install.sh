@@ -11,6 +11,11 @@ echo "Installing feature 'neovim-source'"
 VERSION=${VERSION:-"stable"}
 REPOSITORY=${REPOSITORY:-"neovim/neovim"}
 
+CONFIG=${CONFIG:-""}
+INSTALL_NERDFONT=${INSTALL_NERDFONT:-"false"}
+
+
+
 echo "The version to be installed is '$VERSION'"
 
 # Verify that current user is root

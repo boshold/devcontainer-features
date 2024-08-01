@@ -1,0 +1,52 @@
+{
+    "name": "Tmux",
+    "id": "tmux",
+    "version": "1.0.0",
+    "dependsOn": {
+      "ghcr.io/devcontainers/features/common-utils": {},
+      "ghcr.io/devcontainers/features/git": {}
+    },
+    "description": "A feature to install Tmux from source or apt and your own dotfiles",
+    "options": {
+        "mode": {
+            "type": "string",
+            "proposals": ["auto", "source", "apt"],
+            "default": "auto",
+            "description": "The installation mode. Use 'auto' to try to use 'apt' to match the required version or as fallback 'source'. Use 'apt' to install the latest version using 'apt'. Use 'source' to install the required version using the source repositry."
+        },
+        "repository": {
+            "type": "string",
+            "proposals": ["tmux/tmux"],
+            "default": "tmux/tmux",
+            "description": "The public github repository of Tmux to be installed"
+        },
+        "version": {
+            "type": "string",
+            "proposals": ["latest","3.4"],
+            "default": "latest",
+            "description": "The version of Neovim to be installed (latest or a specific version in the format 'MAJOR.MINOR' e.g. '3.4' or 'v3.4' or '3')"
+        },
+        "config": {
+            "type": "string",
+            "proposals": [
+                "kpalatzky/dotfiles:dot_config/tmux"
+            ],
+            "default": "",
+            "description": "The tmux config file that should be used. This to be a public github repository."
+        },
+        "config_hook": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable to run the `.tmux_devcontainer_hook.sh` inside of your config folder on install if exists."
+        },
+        "nerdfont": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable to install the JetBrainsMono NerdFont. May required by your `config`."
+        }
+    },
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/common-utils",
+        "ghcr.io/devcontainers/features/git"
+    ]
+}

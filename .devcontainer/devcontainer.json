@@ -2,6 +2,7 @@
     "name": "Workspace",
     "image": "mcr.microsoft.com/devcontainers/universal:linux",
     "features": {},
+    "postStartCommand": "",
     "customizations": {
         // Configure properties specific to VS Code.
         "vscode": {
@@ -11,7 +12,15 @@
             "yzhang.markdown-all-in-one"
           ],
           "settings": {
-            "workbench.iconTheme": "material-icon-theme"
+            "workbench.iconTheme": "material-icon-theme",
+            "editor.fontFamily": "'JetBrainsMonoNL Nerd Font Mono','JetBrainsMono Nerd Font Mono', Consolas, 'Courier New', monospace",
+            "workbench.startupEditor": "terminal",
+            "zenMode.centerLayout": false,
+            "zenMode.hideActivityBar": true,
+            "zenMode.hideLineNumbers": true,
+            "zenMode.hideStatusBar": true,
+            "zenMode.showTabs": "none",
+            "zenMode.fullScreen": false
           }
         }
       }
