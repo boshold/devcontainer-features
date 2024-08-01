@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         features:
-          - neovim-source
+          - neovim
         baseImage:
           - mcr.microsoft.com/devcontainers/base:ubuntu
     steps:
