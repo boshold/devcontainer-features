@@ -10,5 +10,5 @@ dependencies_install_debian() {
 dependencies_get_version_debian() {
   local dependency="$1"
   local version="$(apt-cache show neovim | awk -F ': ' '/^Version:/{print $2}')"
-  RESULT="$version"
+  echo $RESULT
 }

@@ -1,6 +1,6 @@
 install_dependencies() {
-  local id=`util_read_value_from_properties_file "/etc/os-release" "ID" && util_result`;
-  local id_like=`util_read_value_from_properties_file "/etc/os-release" "ID_LIKE" && util_result`;
+  local id=`util_read_value_from_properties_file "/etc/os-release" "ID"; util_result`;
+  local id_like=`util_read_value_from_properties_file "/etc/os-release" "ID_LIKE"; util_result`;
 
   # Get an adjusted ID independent of distro variants
   if [ "${id}" = "debian" ] || [ "${id_like}" = "debian" ]; then

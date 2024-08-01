@@ -41,8 +41,9 @@ main() {
   # Verify that current user is root
   util_verify_is_root
 
-  if [ "$mode" = "auto"]; then
-    local install_version=`dependencies_get_version_debian "neovim" && util_result`
+  if [ "$mode" = "auto" ]; then
+    # local install_version=`dependencies_get_version_debian "neovim" && util_result`
+    install_neovim_source "$repository" "$version"
   elif [ "$mode" = "apt" ]; then
     install_neovim_apt
   elif [ "$mode" = "source" ]; then
