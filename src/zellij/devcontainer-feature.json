@@ -1,0 +1,47 @@
+{
+    "name": "Zellij",
+    "id": "zellij",
+    "version": "0.0.0",
+    "dependsOn": {
+      "ghcr.io/devcontainers/features/common-utils": {},
+      "ghcr.io/devcontainers/features/git": {}
+    },
+    "description": "A feature to install zellij from source or release page with your configuraiton files",
+    "options": {
+        "mode": {
+            "type": "string",
+            "proposals": [ "binary", "cargo", "source"],
+            "default": "binary",
+            "description": "The installation mode. Use 'binary' to download the latest binary from github and install it. Use 'source' to install the required version using the source repositry - This will also install cargo if not already installed."
+        },
+        "repository": {
+            "type": "string",
+            "proposals": ["zellij-org/zellij"],
+            "default": "zellij-org/zellij",
+            "description": "The public github repository of zellij to be installed"
+        },
+        "version": {
+            "type": "string",
+            "proposals": [ "latest", "v0.40.1", "v0.40.0", "v0.39.2", "v0.39.1", "v0.39.0", "v0.38.2", "v0.38.1", "v0.38.0", "v0.37.2", "v0.37.1", "v0.37.0", "v0.36.0", "v0.35.2", "v0.35.1", "v0.34.4", "v0.34.3", "v0.33.0", "v0.32.0", "v0.31.4", "v0.31.3", "v0.31.2", "v0.31.1", "v0.31.0", "v0.30.0", "v0.29.1", "v0.29.0", "v0.28.1", "v0.27.0", "v0.26.1", "v0.26.0" ],
+            "default": "latest",
+            "description": "The version of zellij to be installed (latest or a specific version in the format 'MAJOR.MINOR.PATCH' e.g. '0.40.1' or 'v0.40.1' or '0.40' or '0')"
+        },
+        "config": {
+            "type": "string",
+            "proposals": [
+                "kpalatzky/dotfiles:zellij"
+            ],
+            "default": "",
+            "description": "The zellij config that should be used. This to be a public github repository."
+        },
+        "config_hook": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable to run the `.neovim_devcontainer_hook.sh` inside of your config folder on install if exists."
+        }
+    },
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/common-utils",
+        "ghcr.io/devcontainers/features/git"
+    ]
+}
